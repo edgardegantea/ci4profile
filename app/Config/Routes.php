@@ -8,28 +8,32 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 
-$routes->get('/usuarios', 'UsuarioController::index');
-$routes->get('/usuarios/create', 'UsuarioController::create');
-$routes->post('/usuarios/store', 'UsuarioController::store');
-$routes->get('/usuarios/edit/(:num)', 'UsuarioController::edit/$1');
-$routes->post('/usuarios/update/(:num)', 'UsuarioController::update/$1');
-$routes->post('/usuarios/delete/(:num)', 'UsuarioController::delete/$1');
+// Agrupando rutas para Admin
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'role:admin'], function($routes) {
+    $routes->get('/', 'AdminController::index');
+    $routes->get('/usuarios', 'AdminController::usuarios');
+    $routes->get('/reportes', 'AdminController::reportes');
+});
 
+// Agrupando rutas para Docente
+$routes->group('docente', ['namespace' => 'App\Controllers\Docente', 'filter' => 'role:docente'], function($routes) {
+    $routes->get('/', 'DocenteController::index');
+    $routes->get('/clases', 'DocenteController::clases');
+});
 
+// Agrupando rutas para Estudiante
+$routes->group('estudiante', ['namespace' => 'App\Controllers\Estudiante', 'filter' => 'role:estudiante'], function($routes) {
+    $routes->get('/', 'EstudianteController::index');
+    $routes->get('/notas', 'EstudianteController::notas');
+});
+
+// Rutas adicionales
+$routes->get('/', 'Home::index');
 $routes->get('/login', 'AuthController::login');
 $routes->post('/login', 'AuthController::authenticate');
 $routes->get('/logout', 'AuthController::logout');
-
-
-$routes->get('/admin', 'AdminController::index');
-$routes->get('/docente', 'DocenteController::index');
-$routes->get('/estudiante', 'EstudianteController::index');
-
-$routes->get('/complete-profile', 'ProfileController::completeProfile');
-$routes->post('/update-profile', 'ProfileController::updateProfile');
-
 $routes->get('/reset-password', 'PasswordController::requestReset');
-$routes->post('/send-reset-link', 'PasswordController::sendResetLink');
+$routes->post('/reset-password', 'PasswordController::sendResetLink');
 $routes->get('/reset-password/(:any)', 'PasswordController::resetPassword/$1');
-$routes->post('/update-password', 'PasswordController::updatePassword');
-
+$routes->post('/reset-password/update', 'PasswordController::updatePassword');
+$routes->get('/errors/access_denied', 'ErrorsController::accessDenied');

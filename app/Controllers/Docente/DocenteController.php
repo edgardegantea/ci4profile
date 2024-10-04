@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Docente;
 
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class EstudianteController extends BaseController
+class DocenteController extends BaseController
 {
     public function index()
     {
-        return view('estudiante/index');
+        return view('docente/index');
     }
 }

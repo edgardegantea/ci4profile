@@ -5,10 +5,10 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class AdminController extends BaseController
+class ErrorsController extends BaseController
 {
-    public function index()
+    public function accessDenied()
     {
-        return view('admin/index');
+        return view('errors/access_denied');
     }
 }
